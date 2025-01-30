@@ -1,0 +1,33 @@
+Test Condition,Expected,Actual,Result
+Initial Memory Value,00000001,00000001,N/A
+Initial Memory Value,0fd76e10,0fd76e10,N/A
+Initial Memory Value,5a00429b,5a00429b,N/A
+Initial Memory Value,14333ffc,14333ffc,N/A
+Initial Memory Value,321fedcb,321fedcb,N/A
+Initial Memory Value,80000000,80000000,N/A
+Initial Memory Value,9012fd65,9012fd65,N/A
+Initial Memory Value,abc00237,abc00237,N/A
+Initial Memory Value,b54bc031,b54bc031,N/A
+Initial Memory Value,c187a606,c187a606,N/A
+No Dependency: ANDI ,0fd76e00,0fd76e00,PASS
+No Dependency: NOR,f02891ee,f02891ee,PASS
+No Dependency: SLT,00000001,00000001,PASS
+No Dependency: SLL,7ebb7080,7ebb7080,PASS
+No Dependency: SRL,00000000,00000000,PASS
+No Dependency: SRA,fe000000,fe000000,PASS
+No Dependency: XOR,00000000,00000000,PASS
+No Dependency: MULT ,0fd76e10,0fd76e10,PASS
+No Dependency: DIV,0fd76e10,0fd76e10,PASS
+No Forwarding: ANDI,00000d61,00000d61,PASS
+Forward (B = 2) EX/MEM to EX B: NOR,f028908e,f028908e,PASS
+Forward (A = 1) MEM/WB to EX A: SLT,00000001,00000001,PASS
+No Forwarding: SLL,5faca000,5faca000,PASS
+Forward (A = 2) EX/MEM to EX A: SRL,00bf5940,00bf5940,PASS
+Forward (A = 1) MEM/WB to EX A: SRA,17eb2800,17eb2800,PASS
+No Forwarding: XOR,9fc59375,9fc59375,PASS
+No Forwarding: MULT,e4e43c50,e4e43c50,PASS
+Forward (B = 1) MEM/WB to EX B: DIV,00000000,00000000,PASS
+Data Hazard (RS Dependency): ADD,d15f1416,d15f1416,PASS
+Data Hazard (RT Dependency): ADD,b54bc032,b54bc032,PASS
+Control Hazard: Branch,c187a606,c187a606,PASS
+Control Hazard: Jump,b54bc031,b54bc031,PASS
