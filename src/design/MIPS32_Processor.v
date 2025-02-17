@@ -32,15 +32,15 @@ module MIPS32_Processor(
     localparam W_REG = 5;
 
 
-	/*** Internal Signals ***/
+    /*** Internal Signals ***/
 	
-	/* Branch, Jump, and Hazard Control Signals */
+    /* Branch, Jump, and Hazard Control Signals */
     wire Branch_Sel, Jump_Sel; // Branch and Jump Control Signals
     wire Flush, Stall;         // Hazard Detection Signals
     wire [1:0] Fwd_A, Fwd_B;   // EX Forwarding Signals
 
 
-	/** Stage and Register Signals **/
+    /** Stage and Register Signals **/
 
     /* IF Stage Signals */
     wire [W_INSTR-1:0] IF_Instr;
@@ -80,7 +80,7 @@ module MIPS32_Processor(
     wire [W_INSTR-1:0] WB_Result;
 
 
-	/*** Submodules and Port Mapping ***/
+    /*** Submodules and Port Mapping ***/
 
     /** IF Stage **/
     IF_Stage IF_Stage_inst (
@@ -88,9 +88,9 @@ module MIPS32_Processor(
         .reset(reset),
         .stall(Stall),
         .branch(Branch_Sel),
-        .branch_address(Branch_Addr),
+        .branch_addr(Branch_Addr),
         .jump(Jump_Sel),
-        .jump_address(Jump_Addr),
+        .jump_addr(Jump_Addr),
 		
         .instr(IF_Instr),
         .pc_plus4(IF_PC_Plus4)
@@ -122,7 +122,7 @@ module MIPS32_Processor(
         .reg_write_addr(MEM_WB_Reg_Dest),
         .reg_write_data(WB_Result),
         
-		/* ID Outputs */
+	/* ID Outputs */
         .alu_op(ID_ALU_Op),
         .alu_src(ID_ALU_Src),
         .mem_read(ID_Mem_Read),
@@ -181,7 +181,7 @@ module MIPS32_Processor(
     /** EX Stage **/
     EX_Stage EX_Stage_inst(
 	
-		/* EX Inputs */
+	/* EX Inputs */
         .alu_op_cc(ID_EX_ALU_Op),
         .funct_cc(ID_EX_Instr[5:0]),
 		
@@ -196,7 +196,7 @@ module MIPS32_Processor(
         .WB_result(WB_Result),		
         .alu_result_in(EX_MEM_ALU_Result),
 
-		/* EX Outputs */
+	/* EX Outputs */
         .mem_write_data(EX_Mem_Write_Data),
         .alu_result_out(EX_ALU_Result)
     );
@@ -269,8 +269,8 @@ module MIPS32_Processor(
     /** Data Forwarding Unit **/
     Data_Forwarding Data_Forwarding_inst(
 	
-		/* Data Forwarding Inputs */
-		.EX_MEM_reg_write_en(EX_MEM_Reg_Write),
+	/* Data Forwarding Inputs */
+	.EX_MEM_reg_write_en(EX_MEM_Reg_Write),
         .MEM_WB_reg_write_en(MEM_WB_Reg_Write),
 
         .ID_EX_rs_addr(ID_EX_Instr[25:21]),
@@ -278,7 +278,7 @@ module MIPS32_Processor(
         .EX_MEM_reg_dest(EX_MEM_Reg_Dest_Addr),
         .MEM_WB_reg_dest(MEM_WB_Reg_Dest),
 
-		/* Data Forwarding Outputs */
+	/* Data Forwarding Outputs */
         .forward_A(Fwd_A),
         .forward_B(Fwd_B)
     );
@@ -287,22 +287,22 @@ module MIPS32_Processor(
     /** Hazard Detection Unit **/
     Hazard_Detection Hazard_Detection_inst(
 	    
-		/* Hazard Detection Inputs */
-		.branch_sel(Branch_Sel),
+	/* Hazard Detection Inputs */
+	.branch_sel(Branch_Sel),
         .jump_sel(Jump_Sel),
         .ID_EX_mem_read_en(ID_EX_Mem_Read),
 		
-        .IF_ID_rs(IF_ID_Instr[25:21]),
-        .IF_ID_rt(IF_ID_Instr[20:16]),
+        .IF_ID_rs_addr(IF_ID_Instr[25:21]),
+        .IF_ID_rt_addr(IF_ID_Instr[20:16]),
         .ID_EX_reg_dest(ID_EX_Reg_Dest_Addr),
 
-		/* Hazard Detection Outputs */
+	/* Hazard Detection Outputs */
         .stall(Stall),
         .flush(Flush)
     );	
 
 
-	/*** MIPS32_Processor Output Assignment ***/
+    /*** MIPS32_Processor Output Assignment ***/
     assign result = WB_Result;
 
 endmodule
