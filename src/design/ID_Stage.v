@@ -22,35 +22,35 @@
 
 module ID_Stage(
 
-	/** Input Signals **/
+    /** Input Signals **/
 	
     input clk, reset,
 
-	/* Data Hazard Inputs */
+    /* Data Hazard Inputs */
     input flush,
-	input stall,
+    input stall,
 	
-	/* Instruction Inputs */
+    /* Instruction Inputs */
     input [31:0] instr,
     input  [9:0] pc_plus4,
 	
-	/* Register Inputs */
+    /* Register Inputs */
     input reg_write_cc,
     input  [4:0] reg_write_addr,
     input [31:0] reg_write_data,
 	
 
-	/** Output Signals **/
+    /** Output Signals **/
 
-	/* Controller Outputs, Hazard-Controlled */
+    /* Controller Outputs, Hazard-Controlled */
     output [1:0] alu_op,	
     output alu_src, mem_read, mem_to_reg, mem_write, reg_write,
 
-	/* Branch and Jump Outputs */
+    /* Branch and Jump Outputs */
     output branch_sel, jump_sel,
     output [9:0] branch_addr, jump_addr,
 	
-	/* Register and Immediate Value Outputs */
+    /* Register and Immediate Value Outputs */
     output [31:0] imm_value,
     output [31:0] reg1_out, reg2_out,
     output  [4:0] reg_dest_addr
@@ -131,8 +131,8 @@ module ID_Stage(
 	RegFile RegFile_inst(
 		.clk(clk),
 		.reset(reset),  
-		.reg_read_addr_1(instr[25:21]), // rs
-		.reg_read_addr_2(instr[20:16]), // rt
+		.reg_rs_addr(instr[25:21]),
+		.reg_rt_addr(instr[20:16]),
 		.reg_write_en(reg_write_cc),
 		.reg_write_addr(reg_write_addr),
 		.reg_write_data(reg_write_data),
@@ -147,7 +147,7 @@ module ID_Stage(
 		);
 
 
-	/** Controller Output Multiplexers **/
+    /** Controller Output Multiplexers **/
 
     Mux2_1 #(.mux_width(2)) Mux_ALU_Op (.sel(Hazard_CC), 
 		.a(ALU_Op_CC), .b(2'b00), .y(alu_op)
@@ -174,7 +174,7 @@ module ID_Stage(
 		);
 
 
-	/** Destination Register Multiplexers **/
+    /** Destination Register Multiplexers **/
 	
     Mux2_1 #(.mux_width(1)) Mux_Reg_Dest_CC (
 		.sel(Hazard_CC),
