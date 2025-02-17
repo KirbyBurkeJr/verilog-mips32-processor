@@ -24,7 +24,7 @@ module IF_Stage(
     input clk, reset,
     input stall,
     input branch, jump,
-    input [9:0] branch_address, jump_address,
+    input [9:0] branch_addr, jump_addr,
 
     output [31:0] instr,
     output [9:0] pc_plus4
@@ -45,7 +45,7 @@ module IF_Stage(
 	Mux2_1 #(.mux_width(W_PC)) MUX2_Branch(
 		.sel(branch),
 		.a(PC_Plus4),
-		.b(branch_address),
+		.b(branch_addr),
 		.y(Mux_Branch_out)
 		);	
 
@@ -53,7 +53,7 @@ module IF_Stage(
 	Mux2_1 #(.mux_width(W_PC)) MUX2_Jump(
 		.sel(jump),
 		.a(Mux_Branch_out),
-		.b(jump_address),
+		.b(jump_addr),
 		.y(Mux_Jump_out)
 		);	
     	
